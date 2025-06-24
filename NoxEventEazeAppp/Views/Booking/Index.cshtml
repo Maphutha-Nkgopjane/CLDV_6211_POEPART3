@@ -1,0 +1,66 @@
+﻿@model IEnumerable<NoxEventEazeAppp.Models.Booking>
+
+@{
+    ViewBag.Title = "Bookings List"; // More descriptive title
+}
+
+<h2>Bookings List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Event.EventName)
+        </th>
+        <th>
+            Venue Name {{-- Changed from DisplayNameFor because Venue is not a direct property of Booking --}}
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserID) {{-- Added UserID header --}}
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfTickets) {{-- Added NumberOfTickets header --}}
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status) {{-- Added Status header --}}
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.EventName)
+            </td>
+            <td>
+                {{-- FIX START: Access Venue through Event --}}
+                @Html.DisplayFor(modelItem => item.Event.Venue.VenueName)
+                {{-- FIX END --}}
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserID) {{-- Display UserID --}}
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfTickets) {{-- Display NumberOfTickets --}}
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status) {{-- Display Status --}}
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.BookingID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.BookingID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.BookingID })
+            </td>
+        </tr>
+    }
+
+</table>

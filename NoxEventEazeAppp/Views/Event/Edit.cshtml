@@ -1,0 +1,97 @@
+﻿@model NoxEventEazeAppp.Models.Event
+
+@{
+    ViewBag.Title = "Edit Event";
+}
+
+<h2>Edit Event</h2>
+
+@using (Html.BeginForm("Edit", "Event", FormMethod.Post, new { enctype = "multipart/form-data" })) // <--- IMPORTANT: Add enctype
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Event</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.EventID)
+        @Html.HiddenFor(model => model.ImageURL) @* <--- IMPORTANT: Keep existing URL in a hidden field *@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EventName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EventName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EventName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EventDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EventDate, new { htmlAttributes = new { @class = "form-control", type = "date" } }) @* Added type="date" *@
+                @Html.ValidationMessageFor(model => model.EventDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EventTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EventTime, new { htmlAttributes = new { @class = "form-control", type = "time" } }) @* Added type="time" *@
+                @Html.ValidationMessageFor(model => model.EventTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* --- IMAGE FILE INPUT FOR EDIT --- *@
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageURL, "Event Image", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (!string.IsNullOrEmpty(Model.ImageURL))
+                {
+                    <img src="@Url.Content(Model.ImageURL)" alt="Current Event Image" style="max-width: 200px; height: auto; margin-bottom: 10px;" /><br />
+                    <p>Current image. Upload a new one to replace it.</p>
+                }
+                <input type="file" name="imageFile" id="imageFile" class="form-control" /> @* <--- New file input *@
+                @Html.ValidationMessageFor(model => model.ImageURL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @* --- END IMAGE FILE INPUT --- *@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.VenueID, "Venue", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("VenueID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.VenueID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Capacity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Capacity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Capacity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<NoxEventEazeAppp.Models.Venue>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VenueName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Capacity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageURL)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VenueName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImageURL))
+                {
+                    <img src="@Url.Content(item.ImageURL)" alt="Venue Image" style="max-width: 100px; max-height: 100px;" />
+                }
+                else
+                {
+                    <img src="@Url.Content("~/Content/Images/Stadium.jpg")" alt="No Image Available" style="max-width: 100px; max-height: 100px;" />
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.VenueID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.VenueID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.VenueID })
+            </td>
+        </tr>
+    }
+
+</table>

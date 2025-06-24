@@ -1,0 +1,81 @@
+﻿@model NoxEventEazeAppp.Models.Booking
+
+@{
+    ViewBag.Title = "Delete Booking"; // More descriptive title
+}
+
+<h2>Delete Booking</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div class="alert alert-danger" role="alert">
+    <strong>Warning!</strong> Deleting this booking is irreversible.
+</div>
+<div>
+    <h4>Booking Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.EventName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.EventName)
+        </dd>
+
+        {{-- FIX START: Access Venue through Event --}}
+        <dt>
+            Venue Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.Venue.VenueName)
+        </dd>
+        {{-- FIX END --}}
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingDate)
+        </dd>
+
+        {{-- ADDED: Display for UserID --}}
+        <dt>
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+
+        {{-- ADDED: Display for NumberOfTickets --}}
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfTickets)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfTickets)
+        </dd>
+
+        {{-- ADDED: Display for Status --}}
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

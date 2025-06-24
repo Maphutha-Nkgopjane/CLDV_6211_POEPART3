@@ -1,0 +1,124 @@
+﻿@model IEnumerable<NoxEventEazeAppp.Models.Event>
+
+@{
+    ViewBag.Title = "Events List";
+}
+
+<h2>Events List</h2>
+
+<p>
+    @Html.ActionLink("Create New Event", "Create", null, new { @class = "btn btn-success" })
+</p>
+
+@using (Html.BeginForm("Index", "Event", FormMethod.Get, new { @class = "form-inline", role = "form" }))
+{
+    <div class="well well-sm">
+        <div class="form-group" style="margin-right:15px;">
+            <label for="searchString" class="control-label">Search:</label>
+            @Html.TextBox("searchString", (string)ViewBag.CurrentFilter, new { @class = "form-control", @placeholder = "Name or Description" })
+        </div>
+
+        <div class="form-group" style="margin-right:15px;">
+            <label for="eventTypeFilter" class="control-label">Event Type:</label>
+            @Html.DropDownList("eventTypeFilter", ViewBag.EventTypeID as SelectList ?? new SelectList(Enumerable.Empty<SelectListItem>()), "All Types", new { @class = "form-control" })
+
+        </div>
+
+        <div class="form-group" style="margin-right:15px;">
+            <label for="startDateFilter" class="control-label">From Date:</label>
+            @Html.TextBox("startDateFilter", (string)ViewBag.CurrentStartDateFilter, new { @class = "form-control", type = "date" })
+        </div>
+
+        <div class="form-group" style="margin-right:15px;">
+            <label for="endDateFilter" class="control-label">To Date:</label>
+            @Html.TextBox("endDateFilter", (string)ViewBag.CurrentEndDateFilter, new { @class = "form-control", type = "date" })
+        </div>
+
+        <div class="form-group" style="margin-right:15px;">
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBox("venueAvailabilityFilter", (bool)(ViewBag.CurrentVenueAvailabilityFilter ?? false)) Venue Available
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+        @Html.ActionLink("Clear Filters", "Index", null, new { @class = "btn btn-default" })
+    </div>
+}
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().EventType.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Venue.VenueName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().EventName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().EventDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().EventTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Capacity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ImageURL)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventType.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Venue.VenueName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImageURL))
+                {
+                    <img src="@Url.Content(item.ImageURL)" alt="Event Image" style="max-width: 100px; max-height: 100px; object-fit: cover;" class="img-thumbnail" />
+                }
+                else
+                {
+                    <img src="@Url.Content("~/Content/Images/Stadium.jpg")" alt="No Image Available" style="max-width: 100px; max-height: 100px; object-fit: cover;" class="img-thumbnail" />
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.EventID }, new { @class = "btn btn-info btn-xs" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.EventID }, new { @class = "btn btn-default btn-xs" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EventID }, new { @class = "btn btn-danger btn-xs" })
+            </td>
+        </tr>
+    }
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,82 @@
+﻿@model NoxEventEazeAppp.Models.Booking
+
+@{
+    ViewBag.Title = "Edit Booking"; // More descriptive title
+}
+
+<h2>Edit Booking</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Booking Details</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.BookingID) {{-- Keep the hidden ID for form submission --}}
+
+        {{-- REMOVE THE VENUEID DROPDOWN - Bookings don't have a direct VenueID --}}
+        {{-- This was causing the "Invalid column name 'VenueID'" error --}}
+        {{-- The EventID dropdown (below) handles the event selection, which in turn defines the venue --}}
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EventID, "Event", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                {{-- This DropDownList should be populated by ViewBag.EventID from BookingController.Edit() --}}
+                @Html.DropDownList("EventID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EventID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        {{-- ADD NumberOfTickets input --}}
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumberOfTickets, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumberOfTickets, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1" } })
+                @Html.ValidationMessageFor(model => model.NumberOfTickets, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        {{-- Add UserID input (or handle automatically in controller). Keep it for edit if it's part of the form. --}}
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        {{-- BookingDate input. If you want it editable, keep it; otherwise, it's often read-only or hidden. --}}
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BookingDate, new { htmlAttributes = new { @class = "form-control", type = "date" } }) {{-- Changed type to "date" for HTML5 date picker --}}
+                @Html.ValidationMessageFor(model => model.BookingDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        {{-- Add Status input --}}
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

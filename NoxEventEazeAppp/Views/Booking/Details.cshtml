@@ -1,0 +1,71 @@
+﻿@model NoxEventEazeAppp.Models.Booking
+
+@{
+    ViewBag.Title = "Booking Details"; // More descriptive title
+}
+
+<h2>Booking Details</h2>
+
+<div>
+    <h4>Booking</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.EventName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.EventName)
+        </dd>
+
+        {{-- FIX START: Access Venue through Event --}}
+        <dt>
+            Venue Name {{-- Changed from DisplayNameFor to simple text --}}
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.Venue.VenueName)
+        </dd>
+        {{-- FIX END --}}
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BookingDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookingDate)
+        </dd>
+
+        {{-- ADDED: Display for UserID --}}
+        <dt>
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+
+        {{-- ADDED: Display for NumberOfTickets --}}
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfTickets)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfTickets)
+        </dd>
+
+        {{-- ADDED: Display for Status --}}
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BookingID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
